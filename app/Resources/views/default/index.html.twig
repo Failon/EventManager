@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}The Invisible Friend{% endblock %}
+{% block body %}
+	<div id="h">
+      <div class="logo">The Invisible Friend</div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2 centered">
+            <h1>Un amic inesperat t'està esperant... Apunta-t'hi ara!</h1>
+            <div class="mtb">
+              <form role="form" action="{{path('signup')}}" method="post" enctype="plain"> 
+                <input type="email" name="email" class="subscribe-input" placeholder="Enter your e-mail address..." autocomplete="off" required />
+                <button class='btn btn-conf btn-green' type="submit">Endavant</button>
+              </form>
+              {% if success is defined %}
+	              {% if  success == '1' %}
+	              <div id="success" class="alert alert-success">
+	                <strong>Registre Correcte!</strong>, Enviarem un mail amb les dades de la persona a qui hauràs de fer el regal, quan es realitzi el sorteig. Gràcies per participar!
+	              </div>
+	          	  {% elseif success == '0' %}
+	          	  	<div id="success" class="alert alert-danger">
+	          	  	  <strong>Registre Incorrecte!</strong>, Probablement has emprat un email ja registrat. Torna a intentar-ho més tard.
+	          	  	</div>
+	          	  {% endif %}
+          	  {% endif %}
+            </div><!--/mt-->
+          </div>
+        </div><!--/row-->
+      </div><!--/container-->
+    </div><!-- /H -->
+{% endblock %}
+
+
+{% block javascripts %}
+	{{parent()}}
+	    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/retina-1.1.0.js"></script>
+{% endblock %}
