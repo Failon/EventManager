@@ -30,7 +30,6 @@ class User extends BaseUser
         parent::__construct();
         $this->email = $email;
         $this->username = $email;
-        $this->password = "1234";
     }
 
     /**

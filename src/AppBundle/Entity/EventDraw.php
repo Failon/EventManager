@@ -3,11 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * EventDraw
  *
- * @ORM\Table(name="event_draw")
+ * @ORM\Table(name="event_draw", uniqueConstraints={@UniqueConstraint(name="search_idx", columns={"event_id", "gifter_id"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EventDrawRepository")
  */
 class EventDraw

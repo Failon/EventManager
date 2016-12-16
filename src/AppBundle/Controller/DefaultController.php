@@ -8,9 +8,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 # Entities
 use AppBundle\Entity\User;
+use AppBundle\Entity\Event;
+
+#Exceptions
+use AppBundle\Exceptions\EventNotFoundException;
 
 class DefaultController extends Controller
 {
+    const active_event = 1;
+
     /**
      * @Route("/", name="homepage")
      */
@@ -27,24 +33,46 @@ class DefaultController extends Controller
      */
     public function singupAction(Request $request)
     {
+        //get the manager
+        $em = $this->getDoctrine()->getManager();
+
         try {
             if($request->getMethod() == 'POST'){
                 //get the email from the request
                 $email = $request->get('email');
-                //create the User object with the email
-                $user_to_register = User::register($email);
-                //store it in the database
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user_to_register);
-                $em->flush();
+                $event = $request->get('event');
+                //find if there is a user with this mail already
+                $user = $em->getRepository('AppBundle:User')->findOneBy(array('email' => $email));
+                //find the event
+                $event = $em->getRepository('AppBundle:Event')->find(self::active_event);
 
-                return $this->redirectToRoute('homepage', array('success' => true));
+                if(!$event instanceof Event){
+                    throw new EventNotFoundException('Event with id '.self::active_event.' not found');
+                }
+
+                //If the user exists
+                if($user instanceof User) {
+                    $user = $em->getRepository('AppBundle:User')->findOneBy(array('email' => $email));
+                    $success = $this->get('event.signup')->signUp($user, $event);
+
+                } else { //If the user does not exist
+                    //create the User object with the email
+                    $user_to_register = User::register($email);
+                    $user_to_register->setPassword('1234');
+                    //store it in the database
+                    $em->persist($user_to_register);
+                    $em->flush();
+                    $success = $this->get('event.signup')->signUp($user_to_register, $event);
+                }
+
+                return $this->redirectToRoute('homepage', array('success' => $success));
             }
             
         } catch (\Exception $e) {
-           
+           throw $e; //Uncomment this line for testing purposes           
         }
-         return $this->redirectToRoute('homepage', array('success' => false));
+
+        return $this->redirectToRoute('homepage', array('success' => false));
     }
 
 }

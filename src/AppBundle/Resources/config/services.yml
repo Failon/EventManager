@@ -1,0 +1,4 @@
+services:
+    event.signup:
+        class:  AppBundle\Service\EventSignup
+        arguments: ['@doctrine.orm.entity_manager']
