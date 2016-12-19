@@ -57,11 +57,14 @@ class DefaultController extends Controller
 
                 } else { //If the user does not exist
                     //create the User object with the email
-                    $user_to_register = User::register($email);
-                    $user_to_register->setPassword('1234');
+                    $userManager = $this->get('fos_user.user_manager');
+                    $user_to_register = $userManager->createUser();
+                    $user_to_register->setUsername($email);
+                    $user_to_register->setEmail($email);
+                    $user_to_register->setPlainPassword('1234');
+                    $user_to_register->setEnabled(true);
                     //store it in the database
-                    $em->persist($user_to_register);
-                    $em->flush();
+                    $userManager->updateUser($user_to_register);
                     $success = $this->get('event.signup')->signUp($user_to_register, $event);
                 }
 
@@ -74,5 +77,4 @@ class DefaultController extends Controller
 
         return $this->redirectToRoute('homepage', array('success' => false));
     }
-
 }

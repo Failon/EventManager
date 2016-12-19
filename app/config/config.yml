@@ -76,3 +76,10 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
     firewall_name: main
     user_class: AppBundle\Entity\User
+
+#EasyAdmin Bundle
+easy_admin:
+    entities:
+        - AppBundle\Entity\User
+        - AppBundle\Entity\Event
+        - AppBundle\Entity\EventDraw

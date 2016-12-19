@@ -1,0 +1,44 @@
+<?php
+
+namespace AppBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
+
+class UserController extends Controller
+{
+    /**
+     * @Route("/login", name="login")
+     */
+    /*public function loginAction(Request $request)
+    {
+        return $this->render('default/login.html.twig');
+    }*/
+
+    /**
+     * @Route("/loginsubmit", name="login_submit")
+     */
+    /*public function loginSubmitAction(Request $request)
+    {
+    	$user = $request->get('user');
+    	$password = $request->get('password');
+
+    	$em = $this->getDoctrine()->getManager();
+    	$qb = $em->getRepository('AppBundle:User')->createQueryBuilder('u');
+
+    	$qb->select('count(u.id)');
+    	$qb->where(
+    		$qb->expr()->andX(
+    			$qb->expr()->orX(
+    				$qb->expr()->eq('username', ':user'),
+    				$qb->expr()->eq('email', ':user')
+    			),
+    			$qb->expr()->eq('password', ':password')
+    		)
+    	)
+
+    	$count = $qb->getQuery()->getSingleScalarResult();
+    }*/
+}
